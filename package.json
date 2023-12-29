@@ -1,5 +1,5 @@
 {
-  "name": "@bebrasmell/zodiac",
+  "name": "@zodyac/server",
   "version": "1.0.0",
   "description": "A zod-driven backend framework for Node.js for true zod maniacs.",
   "scripts": {
@@ -31,7 +31,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/bebrasmell/zodiac"
+    "url": "https://github.com/git-zodyac/server"
   },
   "devDependencies": {
     "@types/express": "^4.17.21",
