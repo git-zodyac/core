@@ -1,10 +1,10 @@
 {
-  "name": "@zodyac/server",
+  "name": "@zodyac/zodyac",
   "version": "1.0.0",
   "description": "A zod-driven backend framework for Node.js for true zod maniacs.",
   "scripts": {
     "build": "tsup",
-    "test": "ts-node --esm ./src/test/test.ts"
+    "test": "ts-node --esm ./src/test/main.ts"
   },
   "type": "module",
   "main": "./dist/public-api.js",

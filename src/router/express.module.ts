@@ -1,9 +1,9 @@
-import express, { Application } from 'express';
-import { INJECTION_TOKEN, zAnyEnv } from '../app/app.types.js';
-import { zModule } from '../modules/module.class.js';
-import { TProvider } from '../modules/module.types.js';
-import { zRouter } from './router.module.js';
-import { zRoutes } from './router.types.js';
+import express, { Application } from "express";
+import { INJECTION_TOKEN, zAnyEnv } from "../app/app.types.js";
+import { zModule } from "../modules/module.class.js";
+import { TProvider } from "../modules/module.types.js";
+import { zRouter } from "./router.module.js";
+import { zRoutes } from "./router.types.js";
 
 export class zExpressApp extends zModule {
   protected readonly _token = INJECTION_TOKEN.express;

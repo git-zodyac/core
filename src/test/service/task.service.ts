@@ -1,6 +1,6 @@
-import { Check, Service } from '../../public-api.js';
-import { TaskServiceSchema } from './task.definition.js';
-import { TaskView } from '../view/task.view.js';
+import { Check, Service } from "../../public-api.js";
+import { TaskServiceSchema } from "./task.definition.js";
+import { TaskView } from "../view/task.view.js";
 
 export class TaskService implements Service<typeof TaskServiceSchema> {
   _view = new TaskView();
@@ -9,7 +9,7 @@ export class TaskService implements Service<typeof TaskServiceSchema> {
     const data = req.body;
 
     return this._view.create(res, {
-      id: '1',
+      id: "1",
       title: data.title,
       deadline: data.deadline,
       status: false,
@@ -22,7 +22,7 @@ export class TaskService implements Service<typeof TaskServiceSchema> {
 
     return this._view.read(res, {
       id: data.id,
-      title: 'title',
+      title: "title",
       deadline: new Date(),
       status: false,
       createdAt: new Date(),
