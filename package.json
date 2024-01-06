@@ -1,6 +1,6 @@
 {
   "name": "@zodyac/core",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Core DI-engine for Zodyac.",
   "scripts": {
     "build": "tsup",
@@ -41,7 +41,6 @@
     "tsup": "^8.0.1"
   },
   "dependencies": {
-    "@zodyac/env": "^1.1.2",
     "zod": "^3.22.4"
   }
 }
