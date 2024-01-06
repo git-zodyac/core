@@ -1,12 +1,12 @@
-import { Injectable, TApp, zAnyEnv } from '../app/app.types.js';
-import { isLogger } from '../utils/logger/logger.utils.js';
-import { zLogger } from '../utils/logger/logger.types.js';
+import { Injectable, TApp, zAnyEnv } from "../app/app.types.js";
+import { isLogger } from "../utils/logger/logger.utils.js";
+import { zLogger } from "../utils/logger/logger.types.js";
 import {
   TDIModule,
   TModuleMap,
   TModuleType,
   TProvider,
-} from './module.types.js';
+} from "./module.types.js";
 
 export abstract class zModule<Z extends zAnyEnv = NonNullable<zAnyEnv>>
   implements TDIModule
@@ -43,7 +43,7 @@ export abstract class zModule<Z extends zAnyEnv = NonNullable<zAnyEnv>>
   }
 
   constructor() {
-    const provided = this.constructor.prototype['__provided'];
+    const provided = this.constructor.prototype["__provided"];
 
     if (provided) {
       if (Array.isArray(provided)) {
@@ -55,12 +55,12 @@ export abstract class zModule<Z extends zAnyEnv = NonNullable<zAnyEnv>>
   }
 
   protected provide<M extends zModule<Z>>(module: TProvider<Z, M>): M {
-    if ('module' in module) {
+    if ("module" in module) {
       if (this._modules.has(module.module)) {
         throw new Error(`Module ${module.module.name} is already provided`);
       }
 
-      if ('value' in module) {
+      if ("value" in module) {
         const instance = module.value;
         this._modules.set(module.module, instance);
         if (isLogger(instance)) this._logger = instance;
@@ -68,7 +68,7 @@ export abstract class zModule<Z extends zAnyEnv = NonNullable<zAnyEnv>>
         return instance;
       }
 
-      if ('factory' in module) {
+      if ("factory" in module) {
         const instance = module.factory();
         this._modules.set(module.module, instance);
         if (isLogger(instance)) this._logger = instance;
@@ -76,7 +76,7 @@ export abstract class zModule<Z extends zAnyEnv = NonNullable<zAnyEnv>>
         return instance;
       }
 
-      if ('class' in module) {
+      if ("class" in module) {
         const instance = new module.class();
         this._modules.set(module.module, instance);
         if (isLogger(instance)) this._logger = instance;

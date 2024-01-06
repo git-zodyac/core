@@ -1,7 +1,7 @@
 {
-  "name": "@zodyac/zodyac",
+  "name": "@zodyac/core",
   "version": "1.0.0",
-  "description": "A zod-driven backend framework for Node.js for true zod maniacs.",
+  "description": "Core DI-engine for Zodyac.",
   "scripts": {
     "build": "tsup",
     "test": "ts-node --esm ./src/test/main.ts"
@@ -24,14 +24,13 @@
     "zod-framework",
     "zod-library",
     "zod-schema",
-    "zod-tool",
-    "express"
+    "zod-tool"
   ],
   "author": "bebrasmell",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/git-zodyac/server"
+    "url": "https://github.com/git-zodyac/core"
   },
   "devDependencies": {
     "@types/express": "^4.17.21",
