@@ -1,6 +1,6 @@
 {
   "name": "@zodyac/core",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Core DI-engine for Zodyac.",
   "scripts": {
     "build": "tsup",
@@ -33,7 +33,6 @@
     "url": "https://github.com/git-zodyac/core"
   },
   "devDependencies": {
-    "@types/express": "^4.17.21",
     "@typescript-eslint/eslint-plugin": "^6.15.0",
     "@typescript-eslint/parser": "^6.15.0",
     "eslint": "^8.56.0",
@@ -43,8 +42,6 @@
   },
   "dependencies": {
     "@zodyac/env": "^1.1.2",
-    "@zodyac/express": "^1.1.0",
-    "express": "^4.18.2",
     "zod": "^3.22.4"
   }
 }
