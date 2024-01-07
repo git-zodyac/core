@@ -6,6 +6,15 @@ import { TProvider } from "../modules/module.types.js";
 import { parse } from "@zodyac/env";
 import { z } from "zod";
 
+const EXIT_SIGNALS = [
+  `exit`,
+  `SIGINT`,
+  `SIGUSR1`,
+  `SIGUSR2`,
+  `uncaughtException`,
+  `SIGTERM`,
+] as const;
+
 export class zApp<Z extends zAnyEnv> extends zModule<Z> implements TApp<Z> {
   protected get app(): TApp<Z> {
     return this;
@@ -25,6 +34,13 @@ export class zApp<Z extends zAnyEnv> extends zModule<Z> implements TApp<Z> {
     if (config.providers) {
       for (const provider of config.providers)
         this.provide(provider as TProvider<Z, zModule<Z>>);
+    }
+
+    for (const signal of EXIT_SIGNALS) {
+      process.on(signal, async () => {
+        await this.stop();
+        process.exit(0);
+      });
     }
   }
 

@@ -18,4 +18,4 @@ app.onDestroy = () => {
   app.logger.info("App destroy");
 };
 
-setTimeout(() => app.stop(), 5000);
+// setTimeout(() => app.stop(), 5000);
