@@ -1,21 +1,20 @@
-import { ExampleModule2 } from "./second.module.js";
-import { Provide, Module } from "../../public-api.js";
-import { zEnv } from "../env.z.js";
+import { Module } from "../../public-api.js";
+import { zAppEnv } from "../env.js";
+import { SecondModule } from "./second.module.js";
 
-@Provide(ExampleModule2)
-export class ExampleModule extends Module<typeof zEnv> {
-  data!: string;
-
-  onInit = () => {
-    this.data = `Hello, ${this.app.env.some}!`;
-    this.logger.log("Service 1 initialized");
+export class FirstModule extends Module<zAppEnv> {
+  public onInit = () => {
+    this.logger.info("First module init");
   };
-
-  onReady = () => {
-    this.logger.log("Service 1 ready");
+  public onReady = async () => {
+    this.logger.info("First module ready");
+    const instance = await this.require(SecondModule);
+    this.logger.info(instance.data);
   };
-
-  onStart = () => {
-    this.logger.log("Service 1 started");
+  public onStart = () => {
+    this.logger.info("First module start");
+  };
+  public onDestroy = () => {
+    this.logger.info("First module destroy");
   };
 }

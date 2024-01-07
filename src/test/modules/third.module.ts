@@ -1,17 +1,24 @@
+import { zAppEnv } from "../env.js";
 import { Module } from "../../public-api.js";
 
-export class ExampleModule3 extends Module {
-  name: string = "Test 3";
+export class ThirdModule extends Module<zAppEnv> {
+  constructor() {
+    super();
+  }
 
-  onInit = () => {
-    this.logger.log("Service 3 initialized");
+  public onInit = () => {
+    this.logger.info("Third module init");
   };
 
-  onReady = () => {
-    this.logger.log("Service 3 ready");
+  public onReady = () => {
+    this.logger.info("Third module ready");
   };
 
-  onStart = () => {
-    this.logger.log("Service 3 started");
+  public onStart = () => {
+    this.logger.info("Third module start");
+  };
+
+  public onDestroy = () => {
+    this.logger.info("Third module destroy");
   };
 }

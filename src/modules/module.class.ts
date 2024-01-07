@@ -3,12 +3,13 @@ import { isLogger } from "../utils/logger/logger.utils.js";
 import { zLogger } from "../utils/logger/logger.types.js";
 import {
   TDIModule,
-  TModuleMap,
+  TModuleFactory,
+  TModuleMap2,
   TModuleType,
   TProvider,
 } from "./module.types.js";
 
-export abstract class zModule<Z extends zAnyEnv = NonNullable<zAnyEnv>>
+export abstract class zModule<Z extends zAnyEnv = zAnyEnv> // NonNullable<zAnyEnv>>
   implements TDIModule
 {
   protected _token?: Injectable;
@@ -21,7 +22,7 @@ export abstract class zModule<Z extends zAnyEnv = NonNullable<zAnyEnv>>
   }
 
   protected parent?: zModule<Z>;
-  protected readonly _modules: TModuleMap<Z> = new Map();
+  protected readonly _modules: TModuleMap2<Z> = new Map();
 
   protected _initialized: boolean = false;
   public get initialized(): boolean {
@@ -54,7 +55,9 @@ export abstract class zModule<Z extends zAnyEnv = NonNullable<zAnyEnv>>
     }
   }
 
-  protected provide<M extends zModule<Z>>(module: TProvider<Z, M>): M {
+  protected provide<M extends zModule<Z>>(
+    module: TProvider<Z, M>,
+  ): M | TModuleFactory<Z, M> {
     if ("module" in module) {
       if (this._modules.has(module.module)) {
         throw new Error(`Module ${module.module.name} is already provided`);
@@ -69,11 +72,11 @@ export abstract class zModule<Z extends zAnyEnv = NonNullable<zAnyEnv>>
       }
 
       if ("factory" in module) {
-        const instance = module.factory();
-        this._modules.set(module.module, instance);
-        if (isLogger(instance)) this._logger = instance;
-        if (this.initialized) instance.__init(this);
-        return instance;
+        this._modules.set(module.module, {
+          token: module.module.name,
+          factory: module.factory,
+        });
+        return module.factory;
       }
 
       if ("class" in module) {
@@ -102,37 +105,64 @@ export abstract class zModule<Z extends zAnyEnv = NonNullable<zAnyEnv>>
     return instance;
   }
 
-  protected _require<M extends zModule<Z>>(module: TModuleType<Z, M>): M {
-    const instance = <M>this._modules.get(module);
-    if (!instance) {
-      const inherited = this.parent?.require(module);
+  // TODO: Factory instance should be created in require, not in provide
+  protected async _require<M extends zModule<Z>>(
+    type: TModuleType<Z, M>,
+  ): Promise<M> {
+    const module = this._modules.get(type);
+    if (!module) {
+      const inherited = this.parent?._require(type);
       if (inherited) return inherited;
 
-      throw new Error(`Module ${module.name} is not provided`);
+      throw new Error(`Module ${type.name} is not provided`);
     }
 
-    return instance;
+    if ("factory" in module) {
+      const instance = await module.factory();
+      this._modules.set(type, instance);
+      return <M>instance;
+    }
+
+    return <M>module;
   }
 
-  public require<M extends zModule<Z>>(module: TModuleType<Z, M>): M {
-    const instance = this._require(module);
-    if (this.initialized) instance.__init(this);
-    if (this.ready) instance.__ready();
-    if (this.started) instance.__start();
+  public async require<M extends zModule<Z>>(
+    type: TModuleType<Z, M>,
+  ): Promise<M> {
+    const module = await this._require(type);
+    if (this.initialized) await module.__init(this);
+    if (this.ready) await module.__ready();
+    if (this.started) await module.__start();
 
-    return instance;
+    return module;
   }
 
   public inject<M extends zModule<Z>>(
     token: Injectable,
     module: TProvider<Z, M>,
-  ): M {
-    const instance = this.provide(module);
+  ): M | TModuleFactory<Z, M> {
+    if ("factory" in module) {
+      const injector = {
+        factory: module.factory,
+        token,
+      };
+      this._modules.set(module.module, injector);
+      return injector.factory;
+    }
+    const instance = <M>this.provide(module);
     instance._token = token;
     return instance;
   }
-  public injectable<T extends zModule<Z>>(token: Injectable): T | undefined {
+
+  public injectable<T extends zModule<Z>>(
+    token: Injectable,
+  ): T | TModuleFactory<Z, zModule<Z>> | undefined {
     for (const module of this._modules.values()) {
+      if ("factory" in module) {
+        if (module.token === token) return module.factory;
+        continue;
+      }
+
       if (module._token === token) return module as T;
     }
 
@@ -145,6 +175,7 @@ export abstract class zModule<Z extends zAnyEnv = NonNullable<zAnyEnv>>
 
     this.parent = parent;
     for (const module of this._modules.values()) {
+      if ("factory" in module) continue;
       await module.__init(this);
     }
 
@@ -157,6 +188,7 @@ export abstract class zModule<Z extends zAnyEnv = NonNullable<zAnyEnv>>
     if (this.ready) return;
 
     for (const module of this._modules.values()) {
+      if ("factory" in module) continue;
       await module.__ready();
     }
 
@@ -169,6 +201,7 @@ export abstract class zModule<Z extends zAnyEnv = NonNullable<zAnyEnv>>
     if (this.started) return;
 
     for (const module of this._modules.values()) {
+      if ("factory" in module) continue;
       await module.__start();
     }
 
@@ -179,6 +212,7 @@ export abstract class zModule<Z extends zAnyEnv = NonNullable<zAnyEnv>>
   public onDestroy?: () => Promise<void> | void;
   protected async __destroy(): Promise<void> {
     for (const module of this._modules.values()) {
+      if ("factory" in module) continue;
       await module.__destroy();
     }
 
