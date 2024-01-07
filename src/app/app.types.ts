@@ -1,5 +1,5 @@
 import { ZodDefault, ZodNumber, ZodObject, z } from "zod";
-import { TProvider } from "../modules/module.types.js";
+import { TAnyProviders } from "../modules/module.types.js";
 import { zModule } from "../modules/module.class.js";
 
 export type MinEnv = { PORT: number };
@@ -10,7 +10,7 @@ export type zAnyEnv = zEnv<zMinEnv>;
 
 export type zConfig<Z extends zAnyEnv> = {
   env: Z;
-  providers?: TProvider<Z, zModule<Z>>[];
+  providers?: TAnyProviders;
   // entity: zEntity;
 };
 

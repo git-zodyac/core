@@ -1,4 +1,4 @@
-import { zAnyEnv } from "../app/app.types.js";
+import { Injectable, zAnyEnv } from "../app/app.types.js";
 import { zModule } from "./module.class.js";
 
 export interface TDIModule {
@@ -27,12 +27,17 @@ export type TValueProvider<
   value: K;
 };
 
+export type TModuleFactory<Z extends zAnyEnv, K extends zModule<Z>> = () =>
+  | Promise<K>
+  | K;
+
 export type TFactoryProvider<
   Z extends zAnyEnv,
   K extends zModule<Z>,
 > = TModuleProvider<Z, K> & {
-  factory: () => K;
+  factory: TModuleFactory<Z, K>;
 };
+
 export type TClassProvider<
   Z extends zAnyEnv,
   K extends zModule<Z>,
@@ -47,7 +52,20 @@ export type TProvider<Z extends zAnyEnv, K extends zModule<Z>> =
   | TFactoryProvider<Z, K>
   | TClassProvider<Z, K>;
 
+export type TAnyProvider = TProvider<zAnyEnv, zModule<zAnyEnv>>;
+export type TAnyProviders = TAnyProvider[];
+
 export type TModuleMap<Z extends zAnyEnv> = Map<
   TModuleType<Z, zModule<Z>>,
   zModule<Z>
+>;
+
+export type TInjectableFactory<Z extends zAnyEnv> = {
+  factory: TModuleFactory<Z, zModule<Z>>;
+  token: Injectable;
+};
+
+export type TModuleMap2<Z extends zAnyEnv> = Map<
+  TModuleType<Z, zModule<Z>>,
+  zModule<Z> | TInjectableFactory<Z>
 >;

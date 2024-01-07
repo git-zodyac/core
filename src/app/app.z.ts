@@ -2,6 +2,7 @@ import { zModule } from "../modules/module.class.js";
 import { TApp, zAnyEnv, zConfig } from "./app.types.js";
 import { zConsoleLogger } from "../utils/logger/c-logger.module.js";
 import { zLogger } from "../utils/logger/logger.types.js";
+import { TProvider } from "../modules/module.types.js";
 import { parse } from "@zodyac/env";
 import { z } from "zod";
 
@@ -22,7 +23,8 @@ export class zApp<Z extends zAnyEnv> extends zModule<Z> implements TApp<Z> {
     this.env = parse(config.env);
 
     if (config.providers) {
-      for (const provider of config.providers) this.provide(provider);
+      for (const provider of config.providers)
+        this.provide(provider as TProvider<Z, zModule<Z>>);
     }
   }
 
