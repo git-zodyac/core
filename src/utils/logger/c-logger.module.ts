@@ -1,29 +1,29 @@
-import { zLoggerModule } from './logger.module.js';
+import { zLoggerModule } from "./logger.module.js";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export class zConsoleLogger extends zLoggerModule {
   log(...args: any[]) {
-    console.log(time(), '|', ...args);
+    console.log(time(), "|", ...args);
   }
 
   info(...args: any[]) {
-    console.info(time(green), '|', ...args);
+    console.info(time(green), "|", ...args);
   }
 
   warn(...args: any[]) {
-    console.warn(time(yellow), '|', ...args);
+    console.warn(time(yellow), "|", ...args);
   }
 
   error(...args: any[]) {
-    console.error(time(red), '|', ...args);
+    console.error(time(red), "|", ...args);
   }
 
   debug(...args: any[]) {
-    console.debug(time(cyan), '|', ...args);
+    console.debug(time(cyan), "|", ...args);
   }
 
   trace(...args: any[]) {
-    console.trace(time(magenta), '|', ...args);
+    console.trace(time(magenta), "|", ...args);
   }
 }
 
@@ -44,6 +44,6 @@ function cyan(str: string): string {
 }
 
 function time(colorfn?: (arg0: string) => string): string {
-  const value = new Date().toLocaleTimeString('short');
+  const value = new Date().toLocaleTimeString("short");
   return colorfn ? colorfn(value) : value;
 }

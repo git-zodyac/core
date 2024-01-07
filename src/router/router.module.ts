@@ -1,5 +1,5 @@
-import { Router } from 'express';
-import { zRoutes } from './router.types.js';
+import { Router } from "express";
+import { zRoutes } from "./router.types.js";
 
 export class zRouter {
   protected readonly _router = Router();
@@ -13,12 +13,12 @@ export class zRouter {
       //   this._router.use(route.path, ...route.middleware);
       // }
 
-      if ('module' in route) {
+      if ("module" in route) {
         this._router.use(route.path, route.module.router);
       }
 
-      if ('method' in route) {
-        if (typeof route.handler === 'function') {
+      if ("method" in route) {
+        if (typeof route.handler === "function") {
           this._router[route.method](route.path, route.handler);
           continue;
         }
@@ -26,7 +26,7 @@ export class zRouter {
         this._router[route.method](route.path, ...route.handler);
         continue;
       }
-      if ('routes' in route) {
+      if ("routes" in route) {
         this._router.use(route.path, new zRouter(route.routes).router);
         continue;
       }

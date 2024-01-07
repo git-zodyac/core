@@ -1,16 +1,16 @@
-import { ze } from '@bebrasmell/zod-express';
-import { zRouter } from './router.module';
-import { Handler } from 'express';
+import { ze } from "@bebrasmell/zod-express";
+import { zRouter } from "./router.module";
+import { Handler } from "express";
 
 export type zRouteMethod =
-  | 'get'
-  | 'post'
-  | 'put'
-  | 'delete'
-  | 'patch'
-  | 'options'
-  | 'head'
-  | 'all';
+  | "get"
+  | "post"
+  | "put"
+  | "delete"
+  | "patch"
+  | "options"
+  | "head"
+  | "all";
 
 export interface zRoutePath {
   path: string;

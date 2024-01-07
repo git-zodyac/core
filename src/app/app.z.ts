@@ -1,9 +1,9 @@
-import { zModule } from '../modules/module.class.js';
-import { TApp, zAnyEnv, zConfig } from './app.types.js';
-import { zConsoleLogger } from '../utils/logger/c-logger.module.js';
-import { zLogger } from '../utils/logger/logger.types.js';
-import { parse } from '@bebrasmell/zod-env';
-import { z } from 'zod';
+import { zModule } from "../modules/module.class.js";
+import { TApp, zAnyEnv, zConfig } from "./app.types.js";
+import { zConsoleLogger } from "../utils/logger/c-logger.module.js";
+import { zLogger } from "../utils/logger/logger.types.js";
+import { parse } from "@bebrasmell/zod-env";
+import { z } from "zod";
 
 export class zApp<Z extends zAnyEnv> extends zModule<Z> implements TApp<Z> {
   protected get app(): TApp<Z> {

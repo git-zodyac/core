@@ -1,6 +1,6 @@
-import { ZodDefault, ZodNumber, ZodObject, z } from 'zod';
-import { TProvider } from '../modules/module.types.js';
-import { zModule } from '../modules/module.class.js';
+import { ZodDefault, ZodNumber, ZodObject, z } from "zod";
+import { TProvider } from "../modules/module.types.js";
+import { zModule } from "../modules/module.class.js";
 
 export type MinEnv = { PORT: number };
 export type zMinEnv = { PORT: ZodNumber | ZodDefault<ZodNumber> };
@@ -23,9 +23,9 @@ export interface TApp<Z extends zAnyEnv> extends zModule<Z> {
 }
 
 export const INJECTION_TOKEN = {
-  logger: 'logger',
-  express: 'express',
-  socket: 'socket',
+  logger: "logger",
+  express: "express",
+  socket: "socket",
 } as const;
 
 export type TInjectionToken =

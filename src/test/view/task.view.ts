@@ -1,6 +1,6 @@
-import { TaskServiceSchema } from '../service/task.definition.js';
-import { ViewModule, View, zViewAny } from '../../public-api.js';
-import { ITask } from '../models/task.model.js';
+import { TaskServiceSchema } from "../service/task.definition.js";
+import { ViewModule, View, zViewAny } from "../../public-api.js";
+import { ITask } from "../models/task.model.js";
 
 export class TaskView implements ViewModule<typeof TaskServiceSchema> {
   create = View(TaskServiceSchema.create, (res, task: ITask) => {
@@ -19,5 +19,5 @@ export class TaskView implements ViewModule<typeof TaskServiceSchema> {
     return res.status(200).send(null);
   });
 
-  notfound = zViewAny((req, res) => res.status(200).send('list'));
+  notfound = zViewAny((req, res) => res.status(200).send("list"));
 }

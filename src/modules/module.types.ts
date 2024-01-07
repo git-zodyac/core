@@ -1,5 +1,5 @@
-import { zAnyEnv } from '../app/app.types.js';
-import { zModule } from './module.class.js';
+import { zAnyEnv } from "../app/app.types.js";
+import { zModule } from "./module.class.js";
 
 export interface TDIModule {
   initialized: boolean;

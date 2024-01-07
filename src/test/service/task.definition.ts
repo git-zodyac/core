@@ -1,10 +1,10 @@
-import { z } from 'zod';
+import { z } from "zod";
 import {
   zTaskCreate,
   zTask,
   zTaskId,
   zTaskUpdate,
-} from '../models/task.model.js';
+} from "../models/task.model.js";
 
 export const TaskServiceSchema = {
   create: {

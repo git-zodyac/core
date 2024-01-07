@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Endpoint, zServiceShape } from '../service/service.types.js';
-import { Response } from 'express';
-import { ZodType, z } from 'zod';
+import { Endpoint, zServiceShape } from "../service/service.types.js";
+import { Response } from "express";
+import { ZodType, z } from "zod";
 
 export type TViewEndpoint<T, TArgs extends Array<any> = any[]> = (
   res: Response<T>,
