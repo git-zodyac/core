@@ -3,7 +3,7 @@ import { TApp, zAnyEnv, zConfig } from "./app.types.js";
 import { zConsoleLogger } from "../utils/logger/c-logger.module.js";
 import { zLogger } from "../utils/logger/logger.types.js";
 import { TProvider } from "../modules/module.types.js";
-import { parse } from "@zodyac/env";
+import { parse } from "@zodyac/zod-env";
 import { z } from "zod";
 
 const EXIT_SIGNALS = [
