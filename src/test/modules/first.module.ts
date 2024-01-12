@@ -3,13 +3,15 @@ import { zAppEnv } from "../env.js";
 import { SecondModule } from "./second.module.js";
 
 export class FirstModule extends Module<zAppEnv> {
-  public onInit = () => {
+  second!: SecondModule;
+
+  public onInit = async () => {
     this.logger.info("First module init");
+    this.second = await this.require(SecondModule);
   };
   public onReady = async () => {
     this.logger.info("First module ready");
-    const instance = await this.require(SecondModule);
-    this.logger.info(instance.data);
+    this.logger.info(this.second?.data);
   };
   public onStart = () => {
     this.logger.info("First module start");
