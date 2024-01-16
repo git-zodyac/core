@@ -105,7 +105,6 @@ export abstract class zModule<Z extends zAnyEnv = zAnyEnv> // NonNullable<zAnyEn
     return instance;
   }
 
-  // TODO: Factory instance should be created in require, not in provide
   protected async _require<M extends zModule<Z>>(
     type: TModuleType<Z, M>,
   ): Promise<M> {
