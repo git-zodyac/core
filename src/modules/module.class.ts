@@ -43,15 +43,16 @@ export abstract class zModule<Z extends zAnyEnv = zAnyEnv> // NonNullable<zAnyEn
     return this._logger ?? this.parent?.logger ?? this.app.logger;
   }
 
+  // protected __required?: {
+  //   module: TModuleType<Z, zModule<Z>>;
+  //   propertyKey: string;
+  // }[];
+
   constructor() {
     const provided = this.constructor.prototype["__provided"];
 
     if (provided) {
-      if (Array.isArray(provided)) {
-        for (const provider of provided) this.provide(provider);
-      } else {
-        this.provide(provided);
-      }
+      for (const provider of provided) this.provide(provider);
     }
   }
 
@@ -176,6 +177,20 @@ export abstract class zModule<Z extends zAnyEnv = zAnyEnv> // NonNullable<zAnyEn
     for (const module of this._modules.values()) {
       if ("factory" in module) continue;
       await module.__init(this);
+    }
+
+    const required: {
+      module: TModuleType<Z, zModule<Z>>;
+      propertyKey: string;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    }[] = (<any>this)["__required"];
+
+    if (required) {
+      for (const dec of required) {
+        const module = await this._require(dec.module);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (<any>this)[dec.propertyKey] = module;
+      }
     }
 
     if (this.onInit) await this.onInit();
