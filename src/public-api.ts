@@ -1,7 +1,16 @@
-export * from "./utils/utils.js";
-export * from "./modules/module.js";
-export * from "./app/app.js";
+// Modules
+export * from "./module/module.js";
+export * from "./application/application.js";
+export * from "./global/global.provider.js";
+export * from "./module/inject.decorator.js";
 
-export * from "@zodyac/zod-env";
+// Types
+export * from "./module/module.types.js";
+export * from "./module/lifecycle.types.js";
 
-// ? remove Environment type declaration in modules and app
+// Utils
+export * from "./utils/logger/logger.module.js";
+export * from "./utils/logger/logger.types.js";
+export * from "./utils/logger/colors.js";
+export * from "./utils/env/env.module.js";
+export * from "./utils/env/env.decorator.js";

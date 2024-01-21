@@ -1,24 +1,42 @@
-import { zAppEnv } from "../env.js";
-import { Module } from "../../public-api.js";
+import { Inject, Module } from "../../public-api.js";
+// import { FirstAlt } from './first-alt.module.js';
+import { FirstModule, first_factory } from "./first.module.js";
+import { SecondModule } from "./second.module.js";
 
-export class ThirdModule extends Module<zAppEnv> {
-  constructor() {
-    super();
+@Module({
+  providers: [
+    {
+      provide: FirstModule,
+      factory: first_factory,
+    },
+  ],
+})
+export class ThirdModule {
+  data = "ThirdModule says hello!";
+
+  @Inject({ read: "data", from: SecondModule })
+  mod3!: string;
+
+  constructor(
+    private mod: FirstModule,
+    // private mod2: SecondModule,
+  ) {
+    console.log("ThirdModule !", this.mod.data);
   }
 
-  public onInit = () => {
-    this.logger.info("Third module init");
-  };
+  onInit() {
+    console.log("ThirdModule init. Second: ", this.mod3);
+  }
 
-  public onReady = () => {
-    this.logger.info("Third module ready");
-  };
+  // onReady() {
+  //   console.log('ThirdModule ready!');
+  // }
 
-  public onStart = () => {
-    this.logger.info("Third module start");
-  };
+  // onStart() {
+  //   console.log('ThirdModule start!');
+  // }
 
-  public onDestroy = () => {
-    this.logger.info("Third module destroy");
-  };
+  // onStop() {
+  //   console.log('ThirdModule stop!');
+  // }
 }

@@ -1,29 +1,35 @@
-import { zAppEnv } from "../env.js";
-import { Module, Provide } from "../../public-api.js";
-import { FourthModule } from "./fourth.module.js";
+import { Module } from "../../public-api.js";
+import { FirstModule, first } from "./first.module.js";
 
-@Provide(FourthModule)
-export class SecondModule extends Module<zAppEnv> {
-  data = "some_data";
+@Module({
+  inRoot: true,
+  providers: [
+    {
+      provide: FirstModule,
+      useValue: first,
+    },
+  ],
+})
+export class SecondModule {
+  data: string = "Hello from second!";
 
-  constructor() {
-    super();
-    console.info("Third module constructor", Date.now());
+  constructor(private mod: FirstModule) {
+    console.log("SecondModule !", this.mod.data);
   }
 
-  public onInit = () => {
-    this.logger.info("Second module init");
-  };
+  // onInit() {
+  //   console.log('SecondModule init!');
+  // }
 
-  public onReady = () => {
-    this.logger.info("Second module ready");
-  };
+  // onReady() {
+  //   console.log('SecondModule ready!');
+  // }
 
-  public onStart = () => {
-    this.logger.info("Second module start");
-  };
+  // onStart() {
+  //   console.log('SecondModule start!');
+  // }
 
-  public onDestroy = () => {
-    this.logger.info("Second module destroy");
-  };
+  // onStop() {
+  //   console.log('SecondModule stop!');
+  // }
 }

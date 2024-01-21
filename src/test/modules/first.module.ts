@@ -1,23 +1,27 @@
-import { Module, Require } from "../../public-api.js";
-import { zAppEnv } from "../env.js";
-import { SecondModule } from "./second.module.js";
+import { Module } from "../../public-api.js";
 
-export class FirstModule extends Module<zAppEnv> {
-  @Require(SecondModule)
-  second!: SecondModule;
+@Module()
+export class FirstModule {
+  data: string = "Hello, " + Math.random();
 
-  public onInit = async () => {
-    this.logger.info("First module init");
-    this.logger.info("OnInit: Given data:", this.second.data);
-  };
-  public onReady = async () => {
-    this.logger.info("First module ready");
-    this.logger.info("OnReady: Given data:", this.second.data);
-  };
-  public onStart = () => {
-    this.logger.info("First module start");
-  };
-  public onDestroy = () => {
-    this.logger.info("First module destroy");
-  };
+  constructor() {}
+
+  // onInit() {
+  //   console.log('FirstModule init!');
+  // }
+
+  // onReady() {
+  //   console.log('FirstModule ready!');
+  // }
+
+  // onStart() {
+  //   console.log('FirstModule start!');
+  // }
+
+  // onStop() {
+  //   console.log('FirstModule stop!');
+  // }
 }
+
+export const first = new FirstModule();
+export const first_factory = async () => new FirstModule();

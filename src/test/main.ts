@@ -1,21 +1,9 @@
-import { app } from "./app.module.js";
+import { EnvProvider, runApp } from "../public-api.js";
+import { AppModule } from "./app.module.js";
+import { zEnv } from "./env.z.js";
 
-app.start();
+// Parse environment variables
+EnvProvider.parse(zEnv);
 
-app.onInit = () => {
-  app.logger.info("App init");
-};
-
-app.onReady = () => {
-  app.logger.info("App ready");
-};
-
-app.onStart = () => {
-  app.logger.info("App start");
-};
-
-app.onDestroy = () => {
-  app.logger.info("App destroy");
-};
-
-// setTimeout(() => app.stop(), 5000);
+// Run application
+runApp(AppModule);
