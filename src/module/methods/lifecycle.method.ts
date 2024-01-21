@@ -102,7 +102,6 @@ export function createLifecycle<T extends zModule>(
 export async function createInstance<T extends zModule>(
   source: zModuleType<T>,
 ): Promise<T> {
-  console.log("Creating", source.name);
   const module = source.prototype;
   const params = Reflect.getMetadata("design:paramtypes", source);
 

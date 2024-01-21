@@ -59,15 +59,11 @@ function __Module__(config?: ModuleConfig) {
 
           if (!param.prototype.__weight) param.prototype.__weight = 1;
           else param.prototype.__weight++;
-
-          console.log("Requires", param.name, param.prototype.__weight);
         }
       }
 
       if (module.__requires) {
         for (const target of module.__requires) {
-          console.log("Requires", target);
-
           if (!target.from.prototype.__token)
             return zError.of("notModule").throw(target.from.name);
 
