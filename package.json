@@ -1,6 +1,6 @@
 {
   "name": "@zodyac/core",
-  "version": "2.0.0-beta",
+  "version": "2.0.0",
   "description": "Core DI-engine for Zodyac.",
   "scripts": {
     "build": "tsup",

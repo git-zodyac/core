@@ -3,6 +3,7 @@ export * from "./module/module.js";
 export * from "./application/application.js";
 export * from "./global/global.provider.js";
 export * from "./module/inject.decorator.js";
+export * from "./module/provider.types.js";
 
 // Types
 export * from "./module/module.types.js";
