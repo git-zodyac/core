@@ -56,13 +56,18 @@ type PartialZodEnvOptions = Partial<ZodEnvOptions>;
 export class EnvProvider<zEnv extends ZodObject<ZodRawShape>> {
   env: z.infer<zEnv>;
 
-  static schema: ZodObject<ZodRawShape>;
+  static schema?: ZodObject<ZodRawShape>;
   static config?: PartialZodEnvOptions;
 
   constructor(private logger: Logger) {
     try {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      this.env = <any>parse(EnvProvider.schema, EnvProvider.config);
+      if (!EnvProvider.schema) {
+        this.logger.warn("Environment:", "No schema provided, skipping.");
+        this.env = {};
+      } else {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        this.env = <any>parse(EnvProvider.schema, EnvProvider.config);
+      }
     } catch (error) {
       this.logger.error("Environment", error);
       process.exit(1);
